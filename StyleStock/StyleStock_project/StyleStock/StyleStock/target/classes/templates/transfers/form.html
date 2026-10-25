@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>New transfer | StyleStock</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><div th:replace="~{fragments/nav :: nav}"></div>
+<main><h1>New stock transfer</h1><p class="muted">Create a request to move stock between centres.</p>
+<section class="panel"><form th:action="@{/transfers}" th:object="${transfer}" method="post">
+<div class="form-grid">
+<div><label for="product">Product *</label><select id="product" th:field="*{product}" required><option value="">Choose product</option><option th:each="p : ${products}" th:value="${p.productId}" th:text="${p.productName + ' (' + p.sku + ')'}"></option></select></div>
+<div><label for="quantity">Quantity *</label><input id="quantity" type="number" min="1" th:field="*{quantity}" required></div>
+<div><label for="sourceCentre">Source centre *</label><select id="sourceCentre" th:field="*{sourceCentre}" required><option value="">Choose source</option><option th:each="c : ${centres}" th:value="${c.centreId}" th:text="${c.centreName}"></option></select></div>
+<div><label for="destinationCentre">Destination centre *</label><select id="destinationCentre" th:field="*{destinationCentre}" required><option value="">Choose destination</option><option th:each="c : ${centres}" th:value="${c.centreId}" th:text="${c.centreName}"></option></select></div>
+</div><div class="toolbar"><a class="btn secondary" th:href="@{/transfers}">Cancel</a><button class="btn" type="submit">Create request</button></div>
+</form></section></main><footer>StyleStock · Stock transfer management</footer></body></html>

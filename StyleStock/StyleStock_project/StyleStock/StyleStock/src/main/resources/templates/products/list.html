@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Products | StyleStock</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+<main>
+  <h1>Products</h1><p class="muted">Manage clothing items, SKUs, brands, and suppliers.</p>
+  <div th:if="${successMessage}" class="alert" th:text="${successMessage}"></div>
+  <div th:if="${errorMessage}" class="alert error" th:text="${errorMessage}"></div>
+  <div class="toolbar">
+    <form class="search" th:action="@{/products}" method="get"><input name="q" th:value="${q}" placeholder="Search name or SKU"><button class="btn" type="submit">Search</button></form>
+    <a class="btn" th:href="@{/products/new}">+ Add product</a>
+  </div>
+  <div class="panel table-wrap">
+    <table><thead><tr><th>Product</th><th>SKU</th><th>Brand</th><th>Category</th><th>Size / Colour</th><th>Unit price</th><th>Actions</th></tr></thead>
+    <tbody>
+      <tr th:each="product : ${products}">
+        <td th:text="${product.productName}"></td><td th:text="${product.sku}"></td>
+        <td th:text="${product.brand.brandName}"></td><td th:text="${product.category.categoryName}"></td>
+        <td th:text="${product.size + ' / ' + product.colour}"></td>
+        <td th:text="${'$' + #numbers.formatDecimal(product.unitPrice, 1, 2)}"></td>
+        <td><div class="actions"><a class="btn small secondary" th:href="@{/products/{id}/edit(id=${product.productId})}">Edit</a>
+          <form th:action="@{/products/{id}/delete(id=${product.productId})}" method="post" onsubmit="return confirm('Delete this product?')"><button class="btn small danger" type="submit">Delete</button></form></div></td>
+      </tr>
+      <tr th:if="${#lists.isEmpty(products)}"><td colspan="7" class="muted">No products found. Add a product to get started.</td></tr>
+    </tbody></table>
+  </div>
+</main><footer>StyleStock · Product management</footer>
+</body></html>

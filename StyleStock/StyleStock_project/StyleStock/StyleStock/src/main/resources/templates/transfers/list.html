@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Transfers | StyleStock</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><div th:replace="~{fragments/nav :: nav}"></div>
+<main><h1>Stock transfers</h1><p class="muted">Track requests to move products between distribution centres.</p>
+<div th:if="${successMessage}" class="alert" th:text="${successMessage}"></div><div th:if="${errorMessage}" class="alert error" th:text="${errorMessage}"></div>
+<div class="toolbar"><span></span><a class="btn" th:href="@{/transfers/new}">+ New transfer</a></div>
+<section class="panel table-wrap"><table><thead><tr><th>ID</th><th>Product</th><th>From</th><th>To</th><th>Quantity</th><th>Date</th><th>Status</th></tr></thead>
+<tbody><tr th:each="t : ${transfers}"><td th:text="${t.transferId}"></td><td th:text="${t.product.productName}"></td><td th:text="${t.sourceCentre.centreName}"></td><td th:text="${t.destinationCentre.centreName}"></td><td th:text="${t.quantity}"></td><td th:text="${t.transferDate}"></td><td th:text="${t.status}"></td></tr>
+<tr th:if="${#lists.isEmpty(transfers)}"><td colspan="7">No transfer requests created yet.</td></tr></tbody></table></section>
+</main><footer>StyleStock · Stock transfer management</footer></body></html>

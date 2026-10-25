@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<header class="topbar" th:fragment="nav">
+  <div class="brand">StyleStock</div>
+  <nav>
+    <a th:href="@{/}">Dashboard</a>
+    <a th:href="@{/products}">Products</a>
+    <a th:href="@{/inventory}">Inventory</a>
+    <a th:href="@{/transfers}">Transfers</a>
+    <form th:action="@{/logout}" method="post" style="margin:0">
+      <button class="btn small secondary" type="submit">Log out</button>
+    </form>
+  </nav>
+</header>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Dashboard | StyleStock</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body>
+<div th:replace="~{fragments/nav :: nav}"></div>
+<main>
+  <h1>Inventory Dashboard</h1>
+  <p class="muted">A quick overview of clothing products and stock activity.</p>
+  <div class="cards">
+    <div class="card"><div class="muted">Products</div><div class="metric" th:text="${productCount}">0</div></div>
+    <div class="card"><div class="muted">Distribution centres</div><div class="metric" th:text="${centreCount}">0</div></div>
+    <div class="card"><div class="muted">Low-stock items</div><div class="metric" th:text="${lowStockCount}">0</div></div>
+    <div class="card"><div class="muted">Transfer requests</div><div class="metric" th:text="${transferCount}">0</div></div>
+  </div>
+  <section class="panel">
+    <div class="toolbar"><h2>Low-stock alerts</h2><a class="btn" th:href="@{/inventory}">View inventory</a></div>
+    <p th:if="${#lists.isEmpty(lowStockItems)}" class="muted">No low-stock items right now.</p>
+    <div class="table-wrap" th:if="${!#lists.isEmpty(lowStockItems)}">
+      <table><thead><tr><th>Product</th><th>SKU</th><th>Centre</th><th>Quantity</th><th>Reorder level</th></tr></thead>
+      <tbody><tr th:each="item : ${lowStockItems}">
+        <td th:text="${item.product.productName}"></td><td th:text="${item.product.sku}"></td>
+        <td th:text="${item.centre.centreName}"></td><td><span class="badge" th:text="${item.quantity}"></span></td>
+        <td th:text="${item.reorderLevel}"></td>
+      </tr></tbody></table>
+    </div>
+  </section>
+  <section class="panel">
+    <div class="toolbar"><h2>Recent stock transfers</h2><a class="btn" th:href="@{/transfers/new}">New transfer</a></div>
+    <p th:if="${#lists.isEmpty(recentTransfers)}" class="muted">No transfers have been created yet.</p>
+    <div class="table-wrap" th:if="${!#lists.isEmpty(recentTransfers)}">
+      <table><thead><tr><th>Product</th><th>From</th><th>To</th><th>Quantity</th><th>Status</th></tr></thead>
+      <tbody><tr th:each="transfer : ${recentTransfers}">
+        <td th:text="${transfer.product.productName}"></td><td th:text="${transfer.sourceCentre.centreName}"></td>
+        <td th:text="${transfer.destinationCentre.centreName}"></td><td th:text="${transfer.quantity}"></td>
+        <td th:text="${transfer.status}"></td>
+      </tr></tbody></table>
+    </div>
+  </section>
+</main>
+<footer>StyleStock · Clothing Inventory Management System</footer>
+</body></html>
